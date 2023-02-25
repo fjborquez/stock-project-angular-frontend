@@ -1,0 +1,1 @@
+# stock-project-angular-frontend
