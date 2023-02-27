@@ -1,0 +1,16 @@
+<p>News</p>
+
+<mat-accordion multi>
+    <mat-expansion-panel *ngFor="let aNews of news">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{aNews.title}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{aNews.companies.join(', ')}}
+                <mat-icon>account_circle</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        {{aNews.body}}
+    </mat-expansion-panel>
+</mat-accordion>
