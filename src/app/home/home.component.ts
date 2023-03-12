@@ -8,25 +8,50 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   news: any[] = [];
+  hasMorePages: boolean = false;
+  currentPage: number = 0;
 
   constructor(private apollo: Apollo) {}
   ngOnInit() {
+    this.executeQuery();
+  }
+
+  nextPage() {
+    this.currentPage += 1;
+    this.executeQuery();
+  }
+
+  beforePage() {
+    this.currentPage -=1;
+    this.executeQuery();
+  }
+
+  executeQuery() {
     this.apollo
       .watchQuery({
         query: gql`
-          {
-            newsall(id: 1) {
-              id
-              title
-              body
-              companies
+          query GetNews($first: Int!, $page: Int!) {
+            newsall(first: $first, page: $page) {
+              data {
+                id
+                title
+                body
+                companies
+              }
+              paginatorInfo {
+                hasMorePages
+              }
             }
           }
         `,
+        variables: {
+          first: 10,
+          page: this.currentPage
+        }
       })
       .valueChanges.subscribe((result: any) => {
-        this.news = result.data.newsall;
+        this.news = result.data.newsall.data;
+        this.hasMorePages = result.data.newsall.paginatorInfo.hasMorePages;
       });
   }
-
 }

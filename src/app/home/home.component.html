@@ -14,3 +14,5 @@
         {{aNews.body}}
     </mat-expansion-panel>
 </mat-accordion>
+<button (click)="beforePage()" *ngIf="currentPage > 0">Anterior</button>
+<button (click)="nextPage()" *ngIf="hasMorePages == true">Siguiente</button>
